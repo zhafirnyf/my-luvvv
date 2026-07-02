@@ -7,10 +7,16 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Prepare public folder
         run: |
