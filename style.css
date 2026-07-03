@@ -1,0 +1,238 @@
+:root {
+    --bg-top: #04172b;
+    --bg-mid: #1e557c;
+    --bg-bottom: #e7f7ff;
+    --ice: #f6fcff;
+    --ice-strong: #ffffff;
+    --accent: #86cfff;
+    --accent-deep: #2d5f8c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bottom) 100%);
+    color: var(--ice);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+}
+
+body > .container {
+    min-height: 70vh;
+}
+
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    inset: -10%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body::before {
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 1px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.7) 0 1.1px, transparent 2.2px);
+    background-size: 180px 180px, 260px 260px;
+    opacity: 0.72;
+    animation: snowDrift 12s linear infinite;
+}
+
+body::after {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 1px, transparent 2px);
+    background-size: 320px 320px;
+    opacity: 0.48;
+    animation: snowDrift 20s linear infinite;
+    filter: blur(1px);
+}
+
+@keyframes snowDrift {
+    0% { transform: translateY(-20%) translateX(-5%); }
+    100% { transform: translateY(120%) translateX(8%); }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(92%, 620px);
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    gap: 14px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+button {
+    padding: 14px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f2fcff 0%, #8fd6ff 45%, #3f7cae 100%);
+    color: #06223a;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(11, 44, 70, 0.24);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    width: auto;
+    max-width: 100%;
+}
+
+#btn-main {
+    margin: 0;
+    align-self: center;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 16px 34px rgba(11, 44, 70, 0.32);
+}
+
+#btn-replay {
+    margin-top: 0;
+    background: linear-gradient(135deg, #dff7ff 0%, #9bd8ff 35%, #4f7ea5 100%);
+    color: #05233b;
+    position: relative;
+    z-index: 5;
+}
+
+#btn-replay:hover {
+    background: linear-gradient(135deg, #ebfcff 0%, #bfe7ff 35%, #5f8fb2 100%);
+}
+
+.hidden {
+    display: none !important;
+}
+
+#lyric-container {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    width: 100%;
+    position: relative;
+    padding: 0 8px;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.lyric-line {
+    font-size: 24px;
+    font-style: italic;
+    margin: 0;
+    opacity: 0;
+    transform: translate(-50%, 18px);
+    transition: opacity 0.6s ease, transform 0.6s ease, color 0.6s ease;
+    text-align: center;
+    line-height: 1.45;
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    max-width: 620px;
+    pointer-events: none;
+    padding: 0 12px;
+    box-sizing: border-box;
+    color: #f8fdff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.16);
+}
+
+.lyric-line.active {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    color: var(--ice-strong);
+    text-shadow: 0 0 25px rgba(255, 255, 255, 0.45), 0 0 35px rgba(132, 194, 255, 0.4);
+    animation: lyricPulse 0.8s ease-out;
+}
+
+.lyric-line.active::before,
+.lyric-line.active::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.25) 45%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    animation: sparkBurst 0.9s ease-out forwards;
+}
+
+.lyric-line.active::before {
+    top: -10px;
+    left: -18px;
+    --move-x: -44px;
+    --move-y: -24px;
+}
+
+.lyric-line.active::after {
+    top: 10px;
+    right: -16px;
+    --move-x: 42px;
+    --move-y: -30px;
+}
+
+@keyframes lyricPulse {
+    0% { transform: translate(-50%, 0) scale(0.96); }
+    50% { transform: translate(-50%, -4px) scale(1.02); }
+    100% { transform: translate(-50%, 0) scale(1); }
+}
+
+@keyframes sparkBurst {
+    0% { transform: translate(0, 0) scale(0.35); opacity: 0.95; }
+    100% { transform: translate(var(--move-x), var(--move-y)) scale(1.2); opacity: 0; }
+}
+
+#my-music {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .container {
+        width: 100%;
+        padding: 16px 12px;
+    }
+
+    button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    #lyric-container {
+        min-height: 200px;
+        padding: 24px 10px;
+        margin-top: 16px;
+    }
+
+    .lyric-line {
+        font-size: 18px;
+        max-width: 100%;
+    }
+}
